@@ -54,6 +54,8 @@ def exec_wasm(data, work, compiler_flags, wasm):
     run_file.append("call " + cur_dir + "/emsdk/emsdk_env.bat")
   else:
     run_file.append("#!/bin/bash")
+    run_file.append("set -x")
+    run_file.append("set -e")
     run_file.append("source " + cur_dir + "/emsdk/emsdk_env.sh")
 
   libs = ""
@@ -152,14 +154,14 @@ for param in argv:
   # wasm or asm
   if json_data["wasm"]:
     flags = json_data["compiler_flags"][:]
-    flags.append("-s WASM=1")
+    flags.append("-sWASM=1")
     exec_wasm(json_data, work_dir, flags, True)
     base.delete_dir(work_dir + "/o")
   if json_data["asm"]:
     flags = json_data["compiler_flags"][:]
-    flags.append("-s WASM=0")
+    flags.append("-sWASM=0")
     flags.append("--closure 0")
-    flags.append("-s MIN_IE_VERSION=11")
+    flags.append("-sMIN_IE_VERSION=11")
     # do it in min.py
     #flags.append("--closure-args=--language_out=ECMASCRIPT5_STRICT")
     if "embed_mem_file" in json_data and (json_data["embed_mem_file"]):

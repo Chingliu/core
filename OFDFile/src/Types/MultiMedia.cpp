@@ -1,11 +1,11 @@
 #include "MultiMedia.h"
 
 #include "../Utils/Utils.h"
-
+#include "../../../DesktopEditor/graphics/Image.h"
 namespace OFD
 {
-CMultiMedia::CMultiMedia(CXmlReader& oXmlReader, const std::wstring& wsRootPath)
-	: IOFDElement(oXmlReader), m_eType(EType::Image)
+CMultiMedia::CMultiMedia(CXmlReader& oXmlReader, const std::wstring& wsRootPath, IFolder *pFolder)
+    : IOFDElement(oXmlReader), m_eType(EType::Image), m_pFolder(pFolder)
 {
 	if (0 != oXmlReader.GetAttributesCount() && oXmlReader.MoveToFirstAttribute())
 	{
@@ -57,5 +57,25 @@ CMultiMedia::EType CMultiMedia::GetType() const
 std::wstring CMultiMedia::GetFilePath() const
 {
 	return m_wsFilePath;
+}
+
+IFolder::IFolderType CMultiMedia::FolderType()const
+{
+    return m_pFolder->getType();
+}
+void CMultiMedia::Draw(IRenderer* pRenderer)const
+{
+    if(m_pFolder->getType() == IFolder::iftFolder){
+        pRenderer->DrawImageFromFile(m_wsFilePath, 0, 0, 1, 1);
+    }else{
+        IFolder::CBuffer* pBuffer=nullptr;
+        m_pFolder->read(m_wsFilePath, pBuffer);
+        if(pBuffer){
+        Aggplus::CImage oImage;
+        oImage.Decode(pBuffer->Buffer, pBuffer->Size);
+        pRenderer->DrawImage(&oImage, 0, 0, 1, 1);
+        RELEASEOBJECT(pBuffer);
+        }
+    }
 }
 }

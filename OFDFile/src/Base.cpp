@@ -166,12 +166,22 @@ CBase::~CBase()
 
 bool CBase::Read(IFolder* pFolder)
 {
+	log_info("[%s] enter", __FUNCTION__);
 	if (nullptr == pFolder || !pFolder->existsXml(L"OFD.xml"))
 		return false;
 
 	CXmlReader oLiteReader;
+    if(pFolder->getType() == IFolder::iftFolder){
 	if (!oLiteReader.FromFile(pFolder->getFullFilePath(L"OFD.xml")) || !oLiteReader.ReadNextNode() || L"ofd:OFD" != oLiteReader.GetName())
 		return false;
+    }else{
+        if(!oLiteReader.FromStringA(pFolder->readXml(L"OFD.xml")))
+            return false;
+        if(!oLiteReader.ReadNextNode())
+            return false;
+        if(L"ofd:OFD" != oLiteReader.GetName())
+           return false;
+    }
 
 	const int nDepth = oLiteReader.GetDepth();
 

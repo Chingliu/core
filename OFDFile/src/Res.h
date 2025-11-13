@@ -8,7 +8,7 @@
 #include "Types/Font.h"
 #include "Types/MultiMedia.h"
 #include "Types/CompositeGraphicUnit.h"
-
+#include "../../OfficeUtils/src/ZipFolder.h"
 namespace OFD
 {
 class CRes
@@ -18,8 +18,9 @@ class CRes
 	std::map<unsigned int, CFont*>                 m_mFonts;
 	std::map<unsigned int, CMultiMedia*>           m_mMultiMedias;
 	std::map<unsigned int, CCompositeGraphicUnit*> m_mCCompositeGraphicUnits;
+    IFolder*                    m_pFolder;
 public:
-	CRes();
+    CRes(IFolder* pFolder);
 	~CRes();
 
 	bool Read(const std::wstring& wsFilePath, const std::wstring& wsRootPath);

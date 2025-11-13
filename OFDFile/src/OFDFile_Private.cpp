@@ -59,8 +59,11 @@ std::wstring COFDFile_Private::GetTempDir() const
 
 bool COFDFile_Private::Read(IFolder* pFolder)
 {
-	if (nullptr == pFolder)
+	OFD::log_info("[%s] enter", __FUNCTION__);
+	if (nullptr == pFolder){
+		OFD::log_error("[%s] pFolder is null", __FUNCTION__);
 		return false;
+	}
 
 	return m_oBase.Read(pFolder);
 }
@@ -82,6 +85,7 @@ bool COFDFile_Private::LoadFromFile(const std::wstring& wsFilePath)
 
 bool COFDFile_Private::LoadFromMemory(BYTE* pData, DWORD ulLength)
 {
+	OFD::log_info("[%s] enter", __FUNCTION__);
 	Close();
 
 	if (nullptr != m_pTempFolder)

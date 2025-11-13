@@ -2,7 +2,7 @@
 	"name": "drawingfile",
 	"res_folder": "./deploy",
 	"wasm": true,
-	"asm": true,
+	"asm": false,
 	"embed_mem_file": true,
 	"run_before": "before.py",
 	"run_after": "after.py",
@@ -14,14 +14,16 @@
 	},
 
 	"compiler_flags": [
-		"-O3", 
+		"-O0",
+		"-g",
+		"-gsource-map",
 		"-fexceptions", 
 		"-Wno-unused-command-line-argument", 
 		"-Wno-register",
-		"-s ALLOW_MEMORY_GROWTH=1", 
-		"-s FILESYSTEM=0", 
-		"-s ENVIRONMENT='web'", 
-		"-s LLD_REPORT_UNDEFINED"
+		"-sALLOW_MEMORY_GROWTH=1", 
+		"-sFILESYSTEM=0", 
+		"-sENVIRONMENT='web'", 
+		"-sLLD_REPORT_UNDEFINED"
 	],
 	"exported_functions": [
 		"_malloc",
@@ -68,12 +70,15 @@
 		"freetype-2.10.4/include", "freetype-2.10.4/include/freetype", 		
 		"../../../../OfficeUtils/src/zlib-1.2.11", "../../../../OfficeUtils/src/zlib-1.2.11/contrib/minizip", "../../../../OfficeUtils/src", 
 		"../../../../Common/3dParty/icu/icu/source/common", 
+		"../../../../Common/3dParty/icu/icu/source/common/unicode", 
 		"../../../xml/libxml2/include", "../../../xml/build/qt", 		
 		"../../../../PdfFile/lib/goo", "../../../../PdfFile/lib/fofi", "../../../../PdfFile/lib/splash", "../../../../PdfFile/lib", 
 		"../../../raster/Jp2/openjpeg", "../../../raster/Jp2/openjpeg/openjpeg-2.4.0/src/lib/openjp2", 
 		"../../../../Common/3dParty/openssl/openssl/include", 
 		"../../../../Common/3dParty/openssl/build/linux_64/include", 
-		"../../../../DocxRenderer"
+		"../../../../DocxRenderer",
+		"../../../../Common/3dParty/boost/boost_1_72_0",
+		"../../../../OFDFile", "../../../../OFDFile/src", "../../../../OFDFile/src/Content", "../../../../OFDFile/src/Types", "../../../../OFDFile/src/Utils"
 	],
 	"define": [
 		"__linux__", "_LINUX", "UNIX", 
@@ -98,6 +103,26 @@
 	{
 		"folder": "../../../raster/",
 		"files": ["BgraFrame.cpp", "ImageFileFormatChecker.cpp", "PICT/PICFile.cpp"]
+	},
+	{
+		"folder": "../../../../OFDFile/",
+		"files": ["OFDFile.cpp"]
+	},
+	{
+		"folder": "../../../../OFDFile/src/",
+		"files": ["Annotation.cpp", "Base.cpp", "Document.cpp", "OFDFile_Private.cpp", "Page.cpp", "Res.cpp"]
+	},
+	{
+		"folder": "../../../../OFDFile/src/Content/",
+		"files": ["Content.cpp", "GraphicUnit.cpp", "ImageObject.cpp", "Layer.cpp", "PageBlock.cpp", "PathObject.cpp", "TextObject.cpp"]
+	},
+	{
+		"folder": "../../../../OFDFile/src/Utils/",
+		"files": ["XmlReader.cpp", "Types.cpp"]
+	},
+	{
+		"folder": "../../../../OFDFile/src/Types/",
+		"files": ["Color.cpp", "CommonData.cpp", "DrawParam.cpp", "MultiMedia.cpp", "PenSettings.cpp", "TemplatePage.cpp", "ColorSpace.cpp", "CompositeGraphicUnit.cpp", "Font.cpp", "PageArea.cpp", "Signature.cpp"]
 	},
 	{
 		"folder": "../../../cximage/CxImage/",
@@ -165,7 +190,7 @@
 	},
 	{
 		"folder": "../../../../Common/3dParty/icu/icu/source/common/",
-		"files": ["ustr_wcs.cpp", "ustrtrns.cpp", "udata.cpp", "ucnv_io.cpp", "ustring.cpp", "umutex.cpp", "putil.cpp", "ustr_cnv.cpp", "ucnvmbcs.cpp", "ucln_cmn.cpp", "ucnv2022.cpp", "ucnvbocu.cpp", "stringpiece.cpp", "charstr.cpp", "ucnv_ext.cpp", "uobject.cpp", "usprep.cpp", "unistr.cpp", "uniset_props.cpp", "loadednormalizer2impl.cpp", "filterednormalizer2.cpp", "utrie2.cpp", "normalizer2.cpp", "normalizer2impl.cpp", "utrie.cpp", "ucase.cpp", "uniset.cpp", "ruleiter.cpp", "parsepos.cpp", "util.cpp", "uprops.cpp", "uvector.cpp", "unames.cpp", "propname.cpp", "utrie2_builder.cpp", "unifunct.cpp", "bmpset.cpp", "unisetspan.cpp", "unifilt.cpp", "patternprops.cpp", "ustrcase.cpp", "bytestrie.cpp", "utf_impl.cpp", "cmemory.cpp", "uhash.cpp", "udatamem.cpp", "umapfile.cpp", "uinvchar.cpp", "uchar.cpp", "ubidi_props.cpp", "characterproperties.cpp", "ucptrie.cpp", "edits.cpp", "umutablecptrie.cpp", "bytesinkutil.cpp", "emojiprops.cpp", "cstring.cpp", "ucmndata.cpp", "ucnv.cpp", "ucnv_u7.cpp", "ucnv_u8.cpp", "ucnv_u16.cpp", "ucnv_u32.cpp", "ucnv_err.cpp", "ucnv_cnv.cpp", "ucnv_lmb.cpp", "ucnv_cb.cpp", "ucnv_ct.cpp", "ucharstrieiterator.cpp", "ucnvlat1.cpp", "uvectr32.cpp", "ucnvhz.cpp", "ucnvscsu.cpp", "ucnv_bld.cpp", "ucnvisci.cpp"]
+		"files": ["umath.cpp", "ustr_wcs.cpp", "ustrtrns.cpp", "udata.cpp", "ucnv_io.cpp", "ustring.cpp", "umutex.cpp", "putil.cpp", "ustr_cnv.cpp", "ucnvmbcs.cpp", "ucln_cmn.cpp", "ucnv2022.cpp", "ucnvbocu.cpp", "stringpiece.cpp", "charstr.cpp", "ucnv_ext.cpp", "uobject.cpp", "usprep.cpp", "unistr.cpp", "uniset_props.cpp", "loadednormalizer2impl.cpp", "filterednormalizer2.cpp", "utrie2.cpp", "normalizer2.cpp", "normalizer2impl.cpp", "utrie.cpp", "ucase.cpp", "uniset.cpp", "ruleiter.cpp", "parsepos.cpp", "util.cpp", "uprops.cpp", "uvector.cpp", "unames.cpp", "propname.cpp", "utrie2_builder.cpp", "unifunct.cpp", "bmpset.cpp", "unisetspan.cpp", "unifilt.cpp", "patternprops.cpp", "ustrcase.cpp", "bytestrie.cpp", "utf_impl.cpp", "cmemory.cpp", "uhash.cpp", "udatamem.cpp", "umapfile.cpp", "uinvchar.cpp", "uchar.cpp", "ubidi_props.cpp", "characterproperties.cpp", "ucptrie.cpp", "edits.cpp", "umutablecptrie.cpp", "bytesinkutil.cpp", "emojiprops.cpp", "cstring.cpp", "ucmndata.cpp", "ucnv.cpp", "ucnv_u7.cpp", "ucnv_u8.cpp", "ucnv_u16.cpp", "ucnv_u32.cpp", "ucnv_err.cpp", "ucnv_cnv.cpp", "ucnv_lmb.cpp", "ucnv_cb.cpp", "ucnv_ct.cpp", "ucharstrieiterator.cpp", "ucnvlat1.cpp", "uvectr32.cpp", "ucnvhz.cpp", "ucnvscsu.cpp", "ucnv_bld.cpp", "ucnvisci.cpp"]
 	},
 	{
 		"folder": "../../../../Common/3dParty/cryptopp/",
@@ -214,7 +239,7 @@
 	{
 		"folder": "../../../../XpsFile/",
 		"files": ["XpsFile.cpp", "XpsLib/Document.cpp", "XpsLib/XpsPage.cpp", "XpsLib/StaticResources.cpp", "XpsLib/Utils.cpp", "XpsLib/WString.cpp", "XpsLib/ContextState.cpp"]
-	},
+	},				
 	{
 		"folder": "../../../../DjVuFile/libdjvu/",
 		"files": ["../DjVu.cpp", "../DjVuFileImplementation.cpp", "Arrays.cpp", "BSByteStream.cpp", "BSEncodeByteStream.cpp", "ByteStream.cpp", "DataPool.cpp", "debug.cpp", "DjVmDir.cpp", "DjVmDir0.cpp", "DjVmDoc.cpp", "DjVmNav.cpp", "DjVuAnno.cpp", "DjVuDocEditor.cpp", "DjVuDocument.cpp", "DjVuDumpHelper.cpp", "DjVuErrorList.cpp", "DjVuFile.cpp", "DjVuFileCache.cpp", "DjVuGlobal.cpp", "DjVuGlobalMemory.cpp", "DjVuImage.cpp", "DjVuInfo.cpp", "DjVuMessageLite.cpp", "DjVuNavDir.cpp", "DjVuPalette.cpp", "DjVuPort.cpp", "DjVuText.cpp", "DjVuToPS.cpp", "GBitmap.cpp", "GContainer.cpp", "GException.cpp", "GIFFManager.cpp", "GMapAreas.cpp", "GPixmap.cpp", "GRect.cpp", "GScaler.cpp", "GSmartPointer.cpp", "GString.cpp", "GThreads.cpp", "GUnicode.cpp", "IFFByteStream.cpp", "IW44EncodeCodec.cpp", "IW44Image.cpp", "JB2EncodeCodec.cpp", "JB2Image.cpp", "JPEGDecoder.cpp", "MMRDecoder.cpp", "MMX.cpp", "UnicodeByteStream.cpp", "XMLParser.cpp", "XMLTags.cpp", "ZPCodec.cpp"]

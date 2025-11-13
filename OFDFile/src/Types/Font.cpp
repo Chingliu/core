@@ -4,10 +4,10 @@
 
 namespace OFD
 {
-CFont::CFont(CXmlReader& oXmlReader, const std::wstring& wsRootPath)
+CFont::CFont(CXmlReader& oXmlReader, const std::wstring& wsRootPath, IFolder *pFolder)
 	: IOFDElement(oXmlReader),
 	  m_wsCharset(L"unicode"), m_bItalic(false), m_bBold(false),
-	  m_bSerif(false), m_bFixedWidth(false)
+      m_bSerif(false), m_bFixedWidth(false), m_pFolder(pFolder)
 {
 	if (0 != oXmlReader.GetAttributesCount() && oXmlReader.MoveToFirstAttribute())
 	{

@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <iostream>
+#include <cstdarg>
 #include <cstdlib>
 #include <cfloat>
 #include <cctype>
@@ -172,5 +174,38 @@ inline bool IsZeroValue(const double& dValue)
 {
 	return DBL_EPSILON > std::fabs(dValue);
 }
+
+inline std::string string_format(const char* fmt, ...) {
+    char buf[1024];
+    va_list args;
+    va_start(args, fmt);
+    std::vsnprintf(buf, sizeof(buf), fmt, args);
+    va_end(args);
+    return std::string(buf);
+}
+
+
+// 内部日志函数
+inline void log_print(const char* level, const std::string& msg) {
+    std::cout << "[" << level << "] "
+              << msg << std::endl;
+}
+
+// 各级别封装
+template<typename... Args>
+void log_info(const char* fmt, Args... args) {
+    log_print("INFO", string_format(fmt, args...).c_str());
+}
+
+template<typename... Args>
+void log_warn(const char* fmt, Args... args) {
+    log_print("WARN", string_format(fmt, args...).c_str());
+}
+
+template<typename... Args>
+void log_error(const char* fmt, Args... args) {
+    log_print("ERROR", string_format(fmt, args...).c_str());
+}
+
 }
 #endif // UTILS_H

@@ -1,6 +1,6 @@
 #include "OFDFile.h"
 #include "src/OFDFile_Private.h"
-
+#include "src/Utils/Utils.h"
 #ifndef DISABLE_PDF_CONVERTATION
 #include "../PdfFile/PdfFile.h"
 #endif
@@ -33,7 +33,6 @@ bool COFDFile::LoadFromMemory(unsigned char* data, unsigned long length, const s
 		return false;
 
 	Close();
-
 	return m_pInternal->LoadFromMemory(data, length);
 }
 

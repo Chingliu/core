@@ -1,4 +1,4 @@
-#include "../OfdFile.h"
+#include "../OFDFile.h"
 #include <iostream>
 
 #include "../../DesktopEditor/common/Directory.h"
@@ -22,7 +22,7 @@ int main()
 
 	oOfdFile.SetTempDirectory(L"temp");
 
-	if (oOfdFile.LoadFromFile(L"YOUR_PATH"))
+	if (oOfdFile.LoadFromFile(L"./test.ofd"))
 		std::cout << "GOOD" << std::endl;
 	else
 		std::cout << "BAD" << std::endl;

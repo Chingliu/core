@@ -6,7 +6,7 @@
 
 namespace OFD
 {
-CRes::CRes()
+CRes::CRes(IFolder* pFolder):m_pFolder(pFolder)
 {}
 
 CRes::~CRes()
@@ -44,8 +44,13 @@ bool CRes::Read(const std::wstring& wsFilePath, const std::wstring& wsRootPath)
 	const std::wstring wsFullPath{CombinePaths(wsRootPath, wsFilePath)};
 
 	CXmlReader oLiteReader;
+    if(m_pFolder->getType() == IFolder::iftFolder){
 	if (!oLiteReader.FromFile(wsFullPath) || !oLiteReader.ReadNextNode() || L"ofd:Res" != oLiteReader.GetName() || oLiteReader.IsEmptyNode())
 		return false;
+    }else{
+        if (!oLiteReader.FromStringA(m_pFolder->readXml(wsFullPath)) || !oLiteReader.ReadNextNode() || L"ofd:Res" != oLiteReader.GetName() || oLiteReader.IsEmptyNode())
+            return false;
+    }
 
 	std::wstring wsResRootPath{wsRootPath};
 
@@ -88,7 +93,7 @@ bool CRes::Read(const std::wstring& wsFilePath, const std::wstring& wsRootPath)
 	PARSE_CONTAINER(container_name, element_name, element_type, melements, new element_type(oLiteReader))
 
 	#define PARSE_CONTAINER_WITH_PATH(container_name, element_name, element_type, melements)\
-	PARSE_CONTAINER(container_name, element_name, element_type, melements, new element_type(oLiteReader, wsResRootPath))
+    PARSE_CONTAINER(container_name, element_name, element_type, melements, new element_type(oLiteReader, wsResRootPath, m_pFolder))
 
 	const int nDepth = oLiteReader.GetDepth();
 

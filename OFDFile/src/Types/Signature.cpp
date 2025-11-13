@@ -15,8 +15,13 @@ CSignature* CSignature::Read(const std::wstring& wsFilePath, IFolder* pFolder)
 		return nullptr;
 
 	CXmlReader oLiteReader;
+    if(pFolder->getType() == IFolder::iftFolder){
 	if (!oLiteReader.FromFile(CombinePaths(pFolder->getFullFilePath(L""), wsFilePath)) || !oLiteReader.ReadNextNode() || L"ofd:Signature" != oLiteReader.GetName() || oLiteReader.IsEmptyNode())
 		return nullptr;
+    }else{
+        if (!oLiteReader.FromStringA(pFolder->readXml(CombinePaths(pFolder->getFullFilePath(L""), wsFilePath))) || !oLiteReader.ReadNextNode() || L"ofd:Signature" != oLiteReader.GetName() || oLiteReader.IsEmptyNode())
+            return nullptr;
+    }
 
 	CSignature *pSignature = new CSignature();
 

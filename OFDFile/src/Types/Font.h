@@ -4,13 +4,13 @@
 #include "../IOFDElement.h"
 
 #include "../../../DesktopEditor/graphics/IRenderer.h"
-
+#include "../../../OfficeUtils/src/ZipFolder.h"
 namespace OFD
 {
 class CFont : public IOFDElement
 {
 public:
-	CFont(CXmlReader& oXmlReader, const std::wstring& wsRootPath);
+    CFont(CXmlReader& oXmlReader, const std::wstring& wsRootPath, IFolder *pFolder);
 
 	void Apply(IRenderer* pRenderer) const;
 private:
@@ -23,6 +23,7 @@ private:
 	bool         m_bFixedWidth;
 
 	std::wstring m_wsFilePath;
+    mutable IFolder     *m_pFolder;
 };
 }
 

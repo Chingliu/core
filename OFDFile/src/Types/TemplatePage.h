@@ -2,7 +2,7 @@
 #define TEMPLATEPAGE_H
 
 #include "../IOFDElement.h"
-
+#include "../../../OfficeUtils/src/ZipFolder.h"
 namespace OFD
 {
 enum class EZOrder
@@ -20,7 +20,7 @@ class CTemplatePage : public IOFDElement
 
 	const CPage* m_pPage;
 public:
-	CTemplatePage(CXmlReader& oXmlReader, const std::wstring& wsRootPath);
+    CTemplatePage(CXmlReader& oXmlReader, const std::wstring& wsRootPath, IFolder* pFolder);
 	~CTemplatePage();
 
 	EZOrder GetZOrder() const;

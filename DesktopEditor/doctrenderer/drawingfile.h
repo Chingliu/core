@@ -38,6 +38,7 @@
 #include "../../PdfFile/PdfFile.h"
 #include "../../XpsFile/XpsFile.h"
 #include "../../DjVuFile/DjVu.h"
+#include "../../OFDFile/OFDFile.h"
 #include "../graphics/pro/js/wasm/src/serialize.h"
 #include "../graphics/pro/js/wasm/src/HTMLRendererText.h"
 #include "../../DocxRenderer/DocxRenderer.h"
@@ -103,6 +104,9 @@ public:
 		case odftXPS:
 			m_nType = 2;
 			break;
+		case odftOFD:
+			m_nType = 3;
+			break;
 		default:
 			break;
 		}
@@ -157,9 +161,12 @@ public:
 		}
 		case 2:
 		{
-			m_pFile = new CXpsFile(m_pApplicationFonts);
+			//m_pFile = new CXpsFile(m_pApplicationFonts);
+			m_pFile = new COFDFile(m_pApplicationFonts);
+			printf("tring ofd file \n");
 			if (!m_pFile->LoadFromFile(sFile, L"", sPassword, sPassword))
 			{
+				printf("load ofd file from file error \n");
 				RELEASEOBJECT(m_pFile);
 			}
 			else
@@ -207,9 +214,12 @@ public:
 			}
 			case 2:
 			{
-				m_pFile = new CXpsFile(m_pApplicationFonts);
+				//m_pFile = new CXpsFile(m_pApplicationFonts);
+				m_pFile = new COFDFile(m_pApplicationFonts);
+				printf("tring ofd file \n");
 				if (!m_pFile->LoadFromMemory(data, size, L"", sPassword, sPassword))
 				{
+					printf("load ofd file from memory error \n");
 					RELEASEOBJECT(m_pFile);
 				}
 				else

@@ -13,7 +13,7 @@ CPage::CPage()
 CPage::~CPage()
 {}
 
-CPage* CPage::Read(const std::wstring& wsFilePath, const std::wstring& wsRootPath)
+CPage* CPage::Read(const std::wstring& wsFilePath, const std::wstring& wsRootPath, IFolder* pFolder)
 {
 	if (wsFilePath.empty() || !CanUseThisPath(wsFilePath, wsRootPath))
 		return nullptr;
@@ -24,8 +24,16 @@ CPage* CPage::Read(const std::wstring& wsFilePath, const std::wstring& wsRootPat
 		wsNormalizedPath = CombinePaths(wsNormalizedPath, L"Content.xml");
 
 	CXmlReader oLiteReader;
-	if (!oLiteReader.FromFile(wsNormalizedPath) || !oLiteReader.ReadNextNode() || L"ofd:Page" != oLiteReader.GetName())
-		return nullptr;
+    if(pFolder && pFolder->getType() == IFolder::iftZip){
+        if (!oLiteReader.FromStringA(pFolder->readXml(wsNormalizedPath)) || !oLiteReader.ReadNextNode() || L"ofd:Page" != oLiteReader.GetName()){
+            return nullptr;
+        }
+    }else{
+        if (!oLiteReader.FromFile(wsNormalizedPath) || !oLiteReader.ReadNextNode() || L"ofd:Page" != oLiteReader.GetName()){
+            return nullptr;
+        }
+    }
+
 
 	const int nDepth = oLiteReader.GetDepth();
 	std::wstring wsNodeName;
