@@ -17,6 +17,9 @@ CORE_ROOT_DIR = $$PWD/../../../../..
 PWD_ROOT_DIR = $$PWD
 include($$CORE_ROOT_DIR/Common/base.pri)
 include($$CORE_ROOT_DIR/Common/3dParty/icu/icu.pri)
+DEFINES += HAVE_UNISTD_H
+DEFINES += HAVE_FCNTL_H
+DEFINES += UNIX
 include(../../freetype.pri)
 
 ADD_DEPENDENCY(UnicodeConverter, kernel)
@@ -45,6 +48,26 @@ LIBS += -lgdi32 \
 		-lOle32
 }
 
+#OFD
+OFD_ROOT_DIR = $$CORE_ROOT_DIR/OFDFile
+INCLUDEPATH += $$CORE_ROOT_DIR/Common/3dParty/boost/boost_1_72_0
+INCLUDEPATH += $$OFD_ROOT_DIR
+INCLUDEPATH += $$OFD_ROOT_DIR/src
+INCLUDEPATH += $$OFD_ROOT_DIR/src/Content
+INCLUDEPATH += $$OFD_ROOT_DIR/src/Types
+INCLUDEPATH += $$OFD_ROOT_DIR/src/Utils
+
+HEADERS += $$files($$OFD_ROOT_DIR/*.h)
+HEADERS += $$files($$OFD_ROOT_DIR/src/*.h)
+HEADERS += $$files($$OFD_ROOT_DIR/src/Content/*.h)
+HEADERS += $$files($$OFD_ROOT_DIR/src/Types/*.h)
+HEADERS += $$files($$OFD_ROOT_DIR/src/Utils/*.h)
+
+SOURCES += $$files($$OFD_ROOT_DIR/*.cpp)
+SOURCES += $$files($$OFD_ROOT_DIR/src/*.cpp)
+SOURCES += $$files($$OFD_ROOT_DIR/src/Content/*.cpp)
+SOURCES += $$files($$OFD_ROOT_DIR/src/Types/*.cpp)
+SOURCES += $$files($$OFD_ROOT_DIR/src/Utils/*.cpp)
 # graphics
 
 HEADERS += \
@@ -65,6 +88,8 @@ HEADERS += \
 	../../../../raster/Metafile/Common/IOutputDevice.h \
 	../../../../raster/Metafile/Common/MetaFileTypes.h \
 	../../../../raster/Metafile/Common/MetaFileClip.h \
+        ../../../../raster/Metafile/Common/CClip.h \
+        ../../../../raster/Metafile/Common/CPath.h \
 	../../../../raster/Metafile/Common/MetaFileObjects.h \
 	../../../../raster/Metafile/Common/MetaFileRenderer.h \
 	../../../../raster/Metafile/Common/MetaFileUtils.h \
@@ -112,6 +137,8 @@ SOURCES += \
 	../../../../raster/BgraFrame.cpp \
 	../../../../raster/ImageFileFormatChecker.cpp \
 	../../../../raster/Metafile/MetaFile.cpp \
+        ../../../../raster/Metafile/Common/CClip.cpp \
+        ../../../../raster/Metafile/Common/CPath.cpp \
 	../../../../raster/PICT/PICFile.cpp \
 	\
 	../../../ArrowHead.cpp \
@@ -485,7 +512,11 @@ SOURCES += \
 
 DEFINES += \
 	THREADMODEL=0 \
-	DEBUGLVL=0
+        DEBUGLVL=0 \
+        HAVE_MBSTATE_T \
+        HAS_WCHAR \
+        HAVE_WCHAR_H \
+        HAVE_STDINCLUDES
 
 DJVU_ROOT_DIR = $$CORE_ROOT_DIR/DjVuFile
 DJVU_WRAPPER  = $$CORE_ROOT_DIR/DjVuFile/wasm/libdjvu

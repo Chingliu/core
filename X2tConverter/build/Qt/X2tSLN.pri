@@ -18,6 +18,8 @@ SUBDIRS = \
     OdfFormatLib \
     XlsFormatLib \
     CompoundFileLib \
+    PdfFileLib \
+    OFDFileLib \
     X2tConverter
 
 XlsbFormatLib.file =	../../../OOXML/Projects/Linux/XlsbFormatLib/XlsbFormatLib.pro
@@ -32,6 +34,8 @@ OdfFormatLib.file =	../../../OdfFile/Projects/Linux/OdfFormatLib.pro
 XlsFormatLib.file =	../../../MsBinaryFile/Projects/XlsFormatLib/Linux/XlsFormatLib.pro
 VbaFormatLib.file =	../../../MsBinaryFile/Projects/VbaFormatLib/Linux/VbaFormatLib.pro
 CompoundFileLib.file =	../../../Common/cfcpp/cfcpp.pro
+PdfFileLib.file = ../../../PdfFile/PdfFile.pro
+OFDFileLib.file = ../../../OFDFile/OFDFile.pro
 
 X2tConverter.depends = \
     XlsbFormatLib \

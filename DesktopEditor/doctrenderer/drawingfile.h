@@ -215,7 +215,7 @@ public:
 			case 2:
 			{
 				//m_pFile = new CXpsFile(m_pApplicationFonts);
-				m_pFile = new COFDFile(m_pApplicationFonts);
+                m_pFile = new COFDFile(m_pApplicationFonts);
 				printf("tring ofd file \n");
 				if (!m_pFile->LoadFromMemory(data, size, L"", sPassword, sPassword))
 				{

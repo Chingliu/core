@@ -1,7 +1,7 @@
 #include "Font.h"
 
 #include "../Utils/Utils.h"
-
+#include "../../../DesktopEditor/graphics/pro/Fonts.h"
 namespace OFD
 {
 CFont::CFont(CXmlReader& oXmlReader, const std::wstring& wsRootPath, IFolder *pFolder)
@@ -69,8 +69,22 @@ void CFont::Apply(IRenderer* pRenderer) const
 
 	pRenderer->put_FontStyle(nFontStyle);
 	pRenderer->put_FontName(m_wsFontName);
-
+#ifdef BUILDING_WASM_MODULE
+    if (!m_wsFilePath.empty()){
+        std::wstring wsTempFileName = L"";
+        if (NSFonts::NSApplicationFontStream::GetGlobalMemoryStorage())
+        {
+            IFolder::CBuffer* pBuffer=nullptr;
+            m_pFolder->read(m_wsFilePath, pBuffer);
+            wsTempFileName = NSFonts::NSApplicationFontStream::GetGlobalMemoryStorage()->GenerateId();
+            NSFonts::NSApplicationFontStream::GetGlobalMemoryStorage()->Add(wsTempFileName, pBuffer->Buffer, (LONG)pBuffer->Size, true);
+            pRenderer->put_FontPath(wsTempFileName);
+            RELEASEOBJECT(pBuffer);
+        }
+    }
+#else
 	if (!m_wsFilePath.empty())
 		pRenderer->put_FontPath(m_wsFilePath);
+#endif
 }
 }

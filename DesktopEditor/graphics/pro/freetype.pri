@@ -1,5 +1,6 @@
 DEFINES += FT_CONFIG_OPTION_SYSTEM_ZLIB
 DEFINES += FT2_BUILD_LIBRARY
+
 FREETYPE_VERSION=2.10.4
 
 FREETYPE_PATH = $$PWD/../../freetype-$$FREETYPE_VERSION
@@ -7,6 +8,7 @@ FREETYPE_PATH = $$PWD/../../freetype-$$FREETYPE_VERSION
 INCLUDEPATH += \
 	$$FREETYPE_PATH/include \
     $$FREETYPE_PATH/include/freetype
+INCLUDEPATH += $$FREETYPE_PATH/include/freetype/config
 
 !config_zlip_image {
     OFFICEUTILS_PATH = $$PWD/../../../OfficeUtils
